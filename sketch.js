@@ -15,24 +15,25 @@ function setup() {
   
   url = getURL();
 
-  lastPartUrl = url.substring(len(url) - 1 - oneFrameStartIndex, len(url) - 1);
+  lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
 
   detectOneFrame();
-
   
-
   print(lastPartUrl);
   
 }
 
 function draw() {
   background(220);
+  ellipse(random(width), random(height), 10, 10);
 }
 
 function detectOneFrame() {
   if (lastPartUrl == oneFrameText) {
     isOneFrame = true;
+    noLoop();
   } else {
     isOneFrame = false;
+    loop();
   }
 }
