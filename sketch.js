@@ -15,7 +15,7 @@ function setup() {
   
   url = getURL();
 
-  lastPartUrl = url.substring(url.length() - 1 - oneFrameStartIndex, url.length() - 1);
+  lastPartUrl = url.substring(len(url) - 1 - oneFrameStartIndex, len(url) - 1);
 
   detectOneFrame();
 
