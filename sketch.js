@@ -4,22 +4,35 @@
 // October 2020
 
 let url = null;
-let staticFrameURL = "?frame";
+
+const oneFrameText = "?frame";
+const oneFrameStartIndex = oneFrameText.length;
+
+let isOneFrame = null;
 
 function setup() {
   createCanvas(400, 400);
   
   url = getURL();
 
-  print(url.substring(0, 5))
+  lastPartUrl = url.substring(url.length() - 1 - oneFrameStartIndex, url.length() - 1);
+
+  detectOneFrame();
+
+  
+
+  print(lastPartUrl);
   
 }
 
 function draw() {
   background(220);
-  print(url);
 }
 
-function detectRequestStaticFrame() {
-
+function detectOneFrame() {
+  if (lastPartUrl == oneFrameText) {
+    isOneFrame = true;
+  } else {
+    isOneFrame = false;
+  }
 }
