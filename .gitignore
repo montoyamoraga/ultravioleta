@@ -1,1 +1,5 @@
+# Apple files
 .DS_Store
+
+# virtual environment for Python
+*/env/
