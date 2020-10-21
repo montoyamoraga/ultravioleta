@@ -10,6 +10,13 @@ const oneFrameStartIndex = oneFrameText.length;
 
 let isOneFrame = null;
 
+const rnn = new ml5.charRNN("./models/input", modelLoaded);
+
+// when the model is loaded
+function modelLoaded() {
+  console.log("model loaded!");
+}
+
 function setup() {
   createCanvas(400, 400);
   
@@ -19,8 +26,14 @@ function setup() {
 
   detectOneFrame();
   
-  print(lastPartUrl);
-  
+  print("lastPartUrl: " + lastPartUrl);
+
+  rnn.generate({ seed: 'a',
+                length: 300,
+                temperature: 0.5
+              }, (err, results) => {
+    console.log(results);
+  });  
 }
 
 function draw() {
