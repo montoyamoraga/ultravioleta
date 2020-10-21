@@ -14,7 +14,7 @@ let currentDecimas = null;
 
 let generating = false;
 
-let temperature = 0.5;
+let temperature = 0.9;
 
 let decimasLines = 10;
 let currentLine = 0;
@@ -58,12 +58,21 @@ function detectOneFrame() {
     oneFrame = true;
       // if oneFrame
     paragraph = select("#result");
-    rnn.generate({ seed: 'a',
-    length: 200,
-    temperature: 0.5
+    rnn.generate({ seed: paragraph.html(),
+    length: 150,
+    temperature: 0.7
     }, (err, results) => {
       console.log(results.sample);
-    // paragraph.html(results.sample);
+      let htmlText = "";
+      for (let i = 0; i < results.sample.length; i++) {
+        if (results.sample[i] == "\n" || results.sample[i] == "\r") {
+          htmlText = htmlText + "<br/>";
+        }
+        else {
+          htmlText = htmlText + results.sample[i];
+        }
+      }
+    paragraph.html(htmlText);
     });  
   } else {
     oneFrame = false;
