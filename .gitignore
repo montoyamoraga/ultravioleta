@@ -2,4 +2,4 @@
 .DS_Store
 
 # virtual environment for Python
-*/env/
+env/
