@@ -8,8 +8,6 @@ let url = null;
 const oneFrameText = "?frame";
 const oneFrameStartIndex = oneFrameText.length;
 
-let isOneFrame = null;
-
 let rnn;
 
 let currentDecimas = null;
@@ -22,55 +20,54 @@ let decimasLines = 10;
 let currentLine = 0;
 let justDidNewLine = false;
 
+let oneFrame = null;
+
+let paragraph;
+
+const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 // when the model is loaded
 function modelLoaded() {
   console.log("model loaded!");
-  generate();
+  detectOneFrame();
 }
 
 function setup() {
   // createCanvas(windowWidth, windowHeight);
 
   noCanvas();
+
+  rnn = new ml5.charRNN("./models/input", modelLoaded);
   
   url = getURL();
 
   lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
-
-  detectOneFrame();
   
   print("lastPartUrl: " + lastPartUrl);
 
-  rnn = new ml5.charRNN("./models/input", modelLoaded);
-
-
-  textAlign(CENTER);
+  paragraph = select("#result");
+  paragraph.html = allChars[int(random(allChars.length))];
 
 }
 
 function draw() {
-  // background(255);
-  // if (currentDecimas != null) {
-  //   text(currentDecimas.sample, windowWidth/2, windowHeight/4);
-  // }
-  
-  // rnn.generate({ seed: 'a',
-  //               length: 200,
-  //               temperature: 0.5
-  //             }, (err, results) => {
-  //   console.log(results);
-  //   currentDecimas = results;
-  // });
-
 }
 
 function detectOneFrame() {
   if (lastPartUrl == oneFrameText) {
-    isOneFrame = true;
-    noLoop();
+    oneFrame = true;
+      // if oneFrame
+    paragraph = select("#result");
+    rnn.generate({ seed: 'a',
+    length: 200,
+    temperature: 0.5
+    }, (err, results) => {
+      console.log(results.sample);
+    // paragraph.html(results.sample);
+    });  
   } else {
-    isOneFrame = false;
-    loop();
+    oneFrame = false;
+    generate();
   }
 }
 
@@ -94,24 +91,24 @@ async function loopRNN() {
 }
 
 async function predict() {
-  let par = select("#result");
+
+  paragraph = select("#result");
   let next = await rnn.predict(temperature);
   await rnn.feed(next.sample);
   if (next.sample == "\r" || next.sample == "\n") {
     if (!justDidNewLine) {
-      par.html(par.html() + "<br/>");
+      paragraph.html(paragraph.html() + "<br/>");
       justDidNewLine = true;
       currentLine = currentLine + 1;
     }
   } else {
-    par.html(par.html() + next.sample);
+    paragraph.html(paragraph.html() + next.sample);
     justDidNewLine = false;
   }
 
   if (currentLine > decimasLines - 1) {
-    par.html(par.html() + "<br/> <br/>");
+    paragraph.html(paragraph.html() + "<br/>");
     justDidNewLine = false;
     currentLine = 0;
   }
-  
 }
