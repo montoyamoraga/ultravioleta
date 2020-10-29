@@ -53,7 +53,7 @@ function setup() {
 
   cursor("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/ojito.png");
 
-  rnn = new ml5.charRNN("./models/ultraVioleta", modelLoaded);
+  rnn = new ml5.charRNN("./models/ultravioleta", modelLoaded);
   
   url = getURL();
 
@@ -105,7 +105,7 @@ function draw() {
 function detectOneFrame() {
   if (lastPartUrl == oneFrameText) {
     oneFrame = true;
-      // if oneFrame
+    // if oneFrame
     // paragraph = select("#result");
     // rnn.generate({ seed: paragraph.html(),
     rnn.generate({ seed: currentDecimas,
@@ -113,7 +113,7 @@ function detectOneFrame() {
     temperature: 0.9
     }, (err, results) => {
       console.log(results.sample);
-      let htmlText = "";
+      // let htmlText = "";
       for (let i = 0; i < results.sample.length; i++) {
         if (results.sample[i] == "\n" || results.sample[i] == "\r") {
           // htmlText = htmlText + "<br/>";
