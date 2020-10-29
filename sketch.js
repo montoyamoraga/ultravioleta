@@ -25,8 +25,16 @@ let oneFrame = null;
 let paragraph;
 
 let violet;
+const violetRed = 68;
+const violetGreen = 0;
+const violetBlue = 153;
 
 const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+let flechita = null;
+
+let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo conoce las décimas de violeta parra";
+let textMenuEnglish = "ultravioleta | imaginary memories of a machine that only knows the décimas of violet parra";
 
 // when the model is loaded
 function modelLoaded() {
@@ -34,19 +42,16 @@ function modelLoaded() {
   detectOneFrame();
 }
 
+function preload() {
+  flechita = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultraVioleta/main/assets/flechita.png");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // createCanvas(100, 100);
-  
 
-  violet = color(68, 0, 153);
+  violet = color(violetRed,violetGreen, violetBlue);
 
-  background(violet);
-
-  // noCanvas();
-
-  cursor("assets/ojito.cur");
-  // cursor(CROSS);
+  cursor("https://raw.githubusercontent.com/montoyamoraga/ultraVioleta/main/assets/ojito.png");
 
   rnn = new ml5.charRNN("./models/ultraVioleta", modelLoaded);
   
@@ -60,11 +65,41 @@ function setup() {
   // paragraph.html = allChars[int(random(allChars.length))];
 
   currentDecimas = allChars[int(random(allChars.length))];
-
 }
 
 function draw() {
-  text(currentDecimas, 10, 10);
+  background(255);
+
+  push();
+  for (let i = 0; i < 255; i++) {
+    noStroke();
+    fill(violetRed + i,violetGreen + i, violetBlue + i);
+    rect(0, 2*i, width, 2);
+  }
+  pop();
+
+  push();
+  textSize(12);
+  fill(255);
+  noStroke();
+  textAlign(RIGHT);
+  fill(255);
+  text(textMenuSpanish, 97*windowWidth/100, 3*windowHeight/100);
+  fill(75*255/100);
+  text(textMenuEnglish, 97*windowWidth/100, 5*windowHeight/100);
+  pop();
+
+  push();
+  imageMode(CENTER);
+  image(flechita, 50*windowWidth/100, 5*windowHeight/100);
+  pop();
+
+  push();
+  textSize(12);
+  fill(255);
+  noStroke();
+  text(currentDecimas, 40*windowWidth/100, 15*windowHeight/100);
+  pop();
 }
 
 function detectOneFrame() {
@@ -75,7 +110,7 @@ function detectOneFrame() {
     // rnn.generate({ seed: paragraph.html(),
     rnn.generate({ seed: currentDecimas,
     length: 150,
-    temperature: 0.7
+    temperature: 0.9
     }, (err, results) => {
       console.log(results.sample);
       let htmlText = "";
@@ -95,10 +130,6 @@ function detectOneFrame() {
     oneFrame = false;
     generate();
   }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
 }
 
 function generate() {
@@ -139,5 +170,17 @@ async function predict() {
     currentDecimas = currentDecimas + "\n";
     justDidNewLine = false;
     currentLine = 0;
+    generating = false;
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background(violet);
+}
+
+function mouseClicked() {
+  currentDecimas = allChars[int(random(allChars.length))];
+  currentLine = 0;
+  generating = true;
 }
