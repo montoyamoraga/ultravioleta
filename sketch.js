@@ -43,7 +43,7 @@ function modelLoaded() {
 }
 
 function preload() {
-  flechita = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultraVioleta/main/assets/flechita.png");
+  flechita = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/flechita.png");
 }
 
 function setup() {
@@ -51,7 +51,7 @@ function setup() {
 
   violet = color(violetRed,violetGreen, violetBlue);
 
-  cursor("https://raw.githubusercontent.com/montoyamoraga/ultraVioleta/main/assets/ojito.png");
+  cursor("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/ojito.png");
 
   rnn = new ml5.charRNN("./models/ultraVioleta", modelLoaded);
   
