@@ -1,0 +1,5 @@
+model_checkpoint_path: "ultraVioleta-2499"
+all_model_checkpoint_paths: "ultraVioleta-0"
+all_model_checkpoint_paths: "ultraVioleta-1000"
+all_model_checkpoint_paths: "ultraVioleta-2000"
+all_model_checkpoint_paths: "ultraVioleta-2499"

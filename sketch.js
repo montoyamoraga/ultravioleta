@@ -37,7 +37,7 @@ function setup() {
 
   noCanvas();
 
-  rnn = new ml5.charRNN("./models/input", modelLoaded);
+  rnn = new ml5.charRNN("./models/ultraVioleta", modelLoaded);
   
   url = getURL();
 
