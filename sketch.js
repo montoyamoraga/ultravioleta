@@ -36,6 +36,8 @@ let flechita = null;
 let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo conoce las décimas de violeta parra";
 let textMenuEnglish = "ultravioleta | imaginary memories of a machine that only knows the décimas of violet parra";
 
+let myFont = null;
+
 // when the model is loaded
 function modelLoaded() {
   console.log("model loaded!");
@@ -44,6 +46,7 @@ function modelLoaded() {
 
 function preload() {
   flechita = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/flechita.png");
+  myFont = loadFont('assets/Monaco.ttf');
 }
 
 function setup() {
@@ -79,11 +82,12 @@ function draw() {
   pop();
 
   push();
-  textSize(12);
+  textSize(10);
   fill(255);
   noStroke();
   textAlign(RIGHT);
   fill(255);
+  textFont(myFont);
   text(textMenuSpanish, 97*windowWidth/100, 3*windowHeight/100);
   fill(75*255/100);
   text(textMenuEnglish, 97*windowWidth/100, 5*windowHeight/100);
@@ -91,14 +95,15 @@ function draw() {
 
   push();
   imageMode(CENTER);
-  image(flechita, 50*windowWidth/100, 5*windowHeight/100);
+  image(flechita, 50*windowWidth/100, 10*windowHeight/100);
   pop();
 
   push();
   textSize(12);
   fill(255);
   noStroke();
-  text(currentDecimas, 40*windowWidth/100, 15*windowHeight/100);
+  textFont(myFont);
+  text(currentDecimas, 40*windowWidth/100, 20*windowHeight/100);
   pop();
 }
 
