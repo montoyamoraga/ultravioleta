@@ -101,7 +101,7 @@ function draw() {
   image(flechita, 50*windowWidth/100, 15*windowHeight/100);
   pop();
 
-  //
+  // add credits on the botto
   push();
   textSize(10);
   fill(255);
