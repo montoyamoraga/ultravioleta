@@ -88,14 +88,14 @@ function draw() {
   textAlign(RIGHT);
   fill(255);
   textFont(myFont);
-  text(textMenuSpanish, 97*windowWidth/100, 3*windowHeight/100);
+  text(textMenuSpanish, 97*windowWidth/100, 5*windowHeight/100);
   fill(75*255/100);
-  text(textMenuEnglish, 97*windowWidth/100, 5*windowHeight/100);
+  text(textMenuEnglish, 97*windowWidth/100, 10*windowHeight/100);
   pop();
 
   push();
   imageMode(CENTER);
-  image(flechita, 50*windowWidth/100, 10*windowHeight/100);
+  image(flechita, 50*windowWidth/100, 15*windowHeight/100);
   pop();
 
   push();
@@ -103,7 +103,7 @@ function draw() {
   fill(255);
   noStroke();
   textFont(myFont);
-  text(currentDecimas, 40*windowWidth/100, 20*windowHeight/100);
+  text(currentDecimas, 40*windowWidth/100, 25*windowHeight/100);
   pop();
 }
 
