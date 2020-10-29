@@ -7,24 +7,20 @@ let url = null;
 
 const oneFrameText = "?frame";
 const oneFrameStartIndex = oneFrameText.length;
-
-let rnn;
+let oneFrame = null;
 
 let currentDecimas = null;
+let paragraph = null;
 
+let rnn;
 let generating = false;
-
 let temperature = 0.9;
 
 let decimasLines = 10;
 let currentLine = 0;
 let justDidNewLine = false;
 
-let oneFrame = null;
-
-let paragraph;
-
-let violet;
+let violet = null;
 const violetRed = 68;
 const violetGreen = 0;
 const violetBlue = 153;
@@ -33,8 +29,10 @@ const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 let flechita = null;
 
-let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo conoce las décimas de violeta parra";
-let textMenuEnglish = "ultravioleta | imaginary memories of a machine that only knows the décimas of violet parra";
+let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
+let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
+
+let textCredits = "nicole l'huiller & aarón montoya-moraga | 2020"
 
 let myFont = null;
 
@@ -71,8 +69,11 @@ function setup() {
 }
 
 function draw() {
+
+  // white background
   background(255);
 
+  // purple header
   push();
   for (let i = 0; i < 255; i++) {
     noStroke();
@@ -81,6 +82,7 @@ function draw() {
   }
   pop();
 
+  // title
   push();
   textSize(10);
   fill(255);
@@ -90,14 +92,27 @@ function draw() {
   textFont(myFont);
   text(textMenuSpanish, 97*windowWidth/100, 5*windowHeight/100);
   fill(75*255/100);
-  text(textMenuEnglish, 97*windowWidth/100, 10*windowHeight/100);
+  text(textMenuEnglish, 97*windowWidth/100, 7*windowHeight/100);
   pop();
 
+  // arrow image
   push();
   imageMode(CENTER);
   image(flechita, 50*windowWidth/100, 15*windowHeight/100);
   pop();
 
+  //
+  push();
+  textSize(10);
+  fill(255);
+  noStroke();
+  textAlign(RIGHT);
+  fill(violet);
+  textFont(myFont);
+  text(textCredits, 97*windowWidth/100, 95*windowHeight/100);
+  pop();
+
+  // display generated text
   push();
   textSize(12);
   fill(255);
@@ -181,7 +196,6 @@ async function predict() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  background(violet);
 }
 
 function mouseClicked() {
