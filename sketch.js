@@ -12,6 +12,7 @@ let oneFrameLength = 300;
 let oneFrameTemperature = 0.9;
 
 let currentDecimas = null;
+let currentDecimasPlaceHolder = "loading...";
 
 let rnn;
 let generating = false;
@@ -61,8 +62,6 @@ function setup() {
 
   lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
   
-  print("lastPartUrl: " + lastPartUrl);
-
   currentDecimas = allChars[int(random(allChars.length))];
 }
 
@@ -116,26 +115,29 @@ function draw() {
   fill(255);
   noStroke();
   textFont(myFont);
-  text(currentDecimas, 40*windowWidth/100, 25*windowHeight/100);
+  if (currentDecimas.length > 1) {
+    text(currentDecimas, 40*windowWidth/100, 25*windowHeight/100);
+  } else {
+    text(currentDecimasPlaceHolder, 40*windowWidth/100, 25*windowHeight/100);
+  }
+  
   pop();
 }
 
 function detectOneFrame() {
   if (lastPartUrl == oneFrameText) {
     oneFrame = true;
-    let oneFrameLines = 0;
     // if oneFrame
     rnn.generate({ seed: currentDecimas,
     length: oneFrameLength,
     temperature: oneFrameTemperature
     }, (err, results) => {
-      console.log(results.sample);
       for (let i = 0; i < results.sample.length; i++) {
         if (results.sample[i] == "\n" || results.sample[i] == "\r") {
           if (!justDidNewLine) {
             currentDecimas = currentDecimas + "\n";
             justDidNewLine = true;
-            oneFrameLines = oneFrameLines + 1;
+            currentLine = currentLine + 1;
           }
         }
         else {
@@ -143,7 +145,7 @@ function detectOneFrame() {
           justDidNewLine = false;
         }
 
-        if (oneFrameLines > decimasLines - 1) {
+        if (currentLine > decimasLines - 1) {
           break;
         }
       }
@@ -199,5 +201,6 @@ function windowResized() {
 function mouseClicked() {
   currentDecimas = allChars[int(random(allChars.length))];
   currentLine = 0;
+  detectOneFrame();
   generating = true;
 }
