@@ -32,7 +32,7 @@ let flechita = null;
 let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
 let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
 
-let textCredits = "nicole l'huiller & aarón montoya-moraga | 2020"
+let textCredits = "nicole l'huillier & aarón montoya-moraga | 2020"
 
 let myFont = null;
 
@@ -98,7 +98,7 @@ function draw() {
   // arrow image
   push();
   imageMode(CENTER);
-  image(flechita, 50*windowWidth/100, 15*windowHeight/100);
+  image(flechita, 50*windowWidth/100, 15*windowHeight/100, 50, 50);
   pop();
 
   // add credits on the botto
