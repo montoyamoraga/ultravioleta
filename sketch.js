@@ -115,11 +115,12 @@ function draw() {
   // display generated text
   push();
   textSize(12);
+  textAlign(CENTER);
   fill(255);
   noStroke();
   textFont(myFont);
   if (currentDecimas.length > 1) {
-    text(currentDecimas, 40*windowWidth/100, 25*windowHeight/100);
+    text(currentDecimas, 50*windowWidth/100, 25*windowHeight/100);
   } else {
     text(currentDecimasPlaceHolder, 40*windowWidth/100, 25*windowHeight/100);
   }
