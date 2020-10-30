@@ -31,6 +31,8 @@ const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 let flechita = null;
 
+let ojito = null; 
+
 let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
 let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
 
@@ -46,6 +48,7 @@ function modelLoaded() {
 
 function preload() {
   flechita = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/flechita.png");
+  ojito = loadImage("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/ojito.png");
   myFont = loadFont('assets/Monaco.ttf');
 }
 
@@ -54,7 +57,7 @@ function setup() {
 
   violet = color(violetRed,violetGreen, violetBlue);
 
-  cursor("https://raw.githubusercontent.com/montoyamoraga/ultravioleta/main/assets/ojito.png");
+  noCursor();
 
   rnn = new ml5.charRNN("./models/ultravioleta", modelLoaded);
   
@@ -120,8 +123,11 @@ function draw() {
   } else {
     text(currentDecimasPlaceHolder, 40*windowWidth/100, 25*windowHeight/100);
   }
-  
   pop();
+
+  // cursor
+  image(ojito, mouseX, mouseY, 654/10, 264/10);
+
 }
 
 function detectOneFrame() {
