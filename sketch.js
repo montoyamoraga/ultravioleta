@@ -1,6 +1,6 @@
 // casiVioleta
 // by Nicole L'Huillier + Aarón Montoya-Moraga
-// submission to Generative Unfoldings
+// submission to Generative Unfoldings, MIT CAST
 // October 2020
 
 let url = null;
@@ -8,9 +8,10 @@ let url = null;
 const oneFrameText = "?frame";
 const oneFrameStartIndex = oneFrameText.length;
 let oneFrame = null;
+let oneFrameLength = 300;
+let oneFrameTemperature = 0.9;
 
 let currentDecimas = null;
-let paragraph = null;
 
 let rnn;
 let generating = false;
@@ -62,9 +63,6 @@ function setup() {
   
   print("lastPartUrl: " + lastPartUrl);
 
-  // paragraph = select("#result");
-  // paragraph.html = allChars[int(random(allChars.length))];
-
   currentDecimas = allChars[int(random(allChars.length))];
 }
 
@@ -101,7 +99,7 @@ function draw() {
   image(flechita, 50*windowWidth/100, 15*windowHeight/100, 50, 50);
   pop();
 
-  // add credits on the botto
+  // add credits on the bottom
   push();
   textSize(10);
   fill(255);
@@ -125,26 +123,30 @@ function draw() {
 function detectOneFrame() {
   if (lastPartUrl == oneFrameText) {
     oneFrame = true;
+    let oneFrameLines = 0;
     // if oneFrame
-    // paragraph = select("#result");
-    // rnn.generate({ seed: paragraph.html(),
     rnn.generate({ seed: currentDecimas,
-    length: 150,
-    temperature: 0.9
+    length: oneFrameLength,
+    temperature: oneFrameTemperature
     }, (err, results) => {
       console.log(results.sample);
-      // let htmlText = "";
       for (let i = 0; i < results.sample.length; i++) {
         if (results.sample[i] == "\n" || results.sample[i] == "\r") {
-          // htmlText = htmlText + "<br/>";
-          currentDecimas = currentDecimas + "\n";
+          if (!justDidNewLine) {
+            currentDecimas = currentDecimas + "\n";
+            justDidNewLine = true;
+            oneFrameLines = oneFrameLines + 1;
+          }
         }
         else {
-          // htmlText = htmlText + results.sample[i];
           currentDecimas = currentDecimas + results.sample[i];
+          justDidNewLine = false;
+        }
+
+        if (oneFrameLines > decimasLines - 1) {
+          break;
         }
       }
-    // paragraph.html(htmlText);
     });  
   } else {
     oneFrame = false;
@@ -169,24 +171,20 @@ async function loopRNN() {
 
 async function predict() {
 
-  paragraph = select("#result");
   let next = await rnn.predict(temperature);
   await rnn.feed(next.sample);
   if (next.sample == "\r" || next.sample == "\n") {
     if (!justDidNewLine) {
-      // paragraph.html(paragraph.html() + "<br/>");
       currentDecimas = currentDecimas + "\n";
       justDidNewLine = true;
       currentLine = currentLine + 1;
     }
   } else {
-    // paragraph.html(paragraph.html() + next.sample);
     currentDecimas = currentDecimas + next.sample;
     justDidNewLine = false;
   }
 
   if (currentLine > decimasLines - 1) {
-    // paragraph.html(paragraph.html() + "<br/>");
     currentDecimas = currentDecimas + "\n";
     justDidNewLine = false;
     currentLine = 0;
