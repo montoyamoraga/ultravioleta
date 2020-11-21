@@ -239,8 +239,7 @@ async function predict() {
   if (currentDecimas[currentDecimas.length - 1] == " ") {
     // fill with a word from list depending on probability
     if (Math.random() < probability) {
-      currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)];
-      currentDecimas = currentDecimas + " ";
+      currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)] + " ";
     }
   }
   else {
