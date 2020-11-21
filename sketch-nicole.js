@@ -1,7 +1,7 @@
 // by Nicole L'Huillier + Aarón Montoya-Moraga
 // November 2020
 
-let probability = 0.1;
+let probability = 0.05;
 
 let url = null;
 
@@ -240,6 +240,7 @@ async function predict() {
     // fill with a word from list depending on probability
     if (Math.random() < probability) {
       currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)];
+      currentDecimas = currentDecimas + " ";
     }
   }
   else {
