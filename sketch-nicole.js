@@ -151,9 +151,7 @@ function setup() {
   noCursor();
 
   rnn = new ml5.charRNN("./models/nicole", modelLoaded);
-  
-  url = getURL();
-  
+    
   currentDecimas = allChars[int(random(allChars.length))];
 }
 
