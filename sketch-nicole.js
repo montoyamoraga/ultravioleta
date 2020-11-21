@@ -5,10 +5,6 @@ let probability = 0.1;
 
 let url = null;
 
-let oneFrame = null;
-let oneFrameLength = 300;
-let oneFrameTemperature = 0.9;
-
 let currentDecimas = null;
 let currentDecimasPlaceHolder = "loading...";
 
@@ -157,8 +153,6 @@ function setup() {
   rnn = new ml5.charRNN("./models/nicole", modelLoaded);
   
   url = getURL();
-
-  lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
   
   currentDecimas = allChars[int(random(allChars.length))];
 }
