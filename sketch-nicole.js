@@ -135,6 +135,7 @@ let myFont = null;
 // when the model is loaded
 function modelLoaded() {
   console.log("model loaded!");
+  generate();
 }
 
 function preload() {
