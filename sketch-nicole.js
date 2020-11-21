@@ -235,36 +235,36 @@ async function loopRNN() {
 
 async function predict() {
 
-  // detect if the last character is a space
-  if (currentDecimas[currentDecimas.length - 1] == " ") {
-    // fill with a word from list depending on probability
+
+  let next = await rnn.predict(temperature);
+  await rnn.feed(next.sample);
+
+  if (next.sample == "\r" || next.sample == "\n") {
+    if (!justDidNewLine) {
+      currentDecimas = currentDecimas + "\n";
+      justDidNewLine = true;
+      currentLine = currentLine + 1;
+    }
+  }
+  else if (next.sample == " ") {
     if (Math.random() < probability) {
-      currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)] + " ";
+      currentDecimas = currentDecimas + next.sample + myWords[Math.floor(Math.random() * myWords.length)] + " ";
+    } else {
+      currentDecimas = currentDecimas + next.sample;
     }
   }
   else {
-    let next = await rnn.predict(temperature);
-    await rnn.feed(next.sample);
-
-    if (next.sample == "\r" || next.sample == "\n") {
-      if (!justDidNewLine) {
-        currentDecimas = currentDecimas + "\n";
-        justDidNewLine = true;
-        currentLine = currentLine + 1;
-      }
-    }
-    else {
-      currentDecimas = currentDecimas + next.sample;
-      justDidNewLine = false;
-    }
-  
-    if (currentLine > decimasLines - 1) {
-      currentDecimas = currentDecimas + "\n";
-      justDidNewLine = false;
-      currentLine = 0;
-      generating = false;
-    }
+    currentDecimas = currentDecimas + next.sample;
+    justDidNewLine = false;
   }
+
+  if (currentLine > decimasLines - 1) {
+    currentDecimas = currentDecimas + "\n";
+    justDidNewLine = false;
+    currentLine = 0;
+    generating = false;
+  }
+
 
 }
 
