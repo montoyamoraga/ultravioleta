@@ -276,4 +276,5 @@ function mouseClicked() {
   currentDecimas = allChars[int(random(allChars.length))];
   currentLine = 0;
   generating = true;
+  generate();
 }
