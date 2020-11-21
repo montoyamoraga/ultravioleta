@@ -1,12 +1,10 @@
-// casiVioleta
 // by Nicole L'Huillier + Aarón Montoya-Moraga
-// submission to Generative Unfoldings, MIT CAST
-// October 2020
+// November 2020
+
+let probability = 0.1;
 
 let url = null;
 
-const oneFrameText = "?frame";
-const oneFrameStartIndex = oneFrameText.length;
 let oneFrame = null;
 let oneFrameLength = 300;
 let oneFrameTemperature = 0.9;
@@ -29,6 +27,104 @@ const violetBlue = 153;
 
 const allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+let myWords = ["bacán",
+  "colectivo",
+  "ojos",
+  "ocular",
+  "perdigones",
+  "memoria",
+  "tecnología",
+  "detector",
+  "dispositivo",
+  "ciencia",
+  "oráculo",
+  "realidad",
+  "derechos medioambientales",
+  "medioambiente",
+  "naturaleza",
+  "más-que-humanos",
+  "alienígena",
+  "nave espacial",
+  "telepresencia",
+  "agua",
+  "sequía",
+  "extracción",
+  "ACAB",
+  "sipo",
+  "apruebo",
+  "constitución",
+  "cuir",
+  "aborto",
+  "hambre",
+  "derechos",
+  "justicia",
+  "justicia social",
+  "justicia medioambiental",
+  "derechos del agua",
+  "derechos de la tierra",
+  "metro",
+  "eclipse",
+  "solsticio",
+  "cambio",
+  "cacerolazo",
+  "cooperación",
+  "colaboración",
+  "las tesis",
+  "matria",
+  "con todo",
+  "resistencia",
+  "virus",
+  "aire",
+  "respirar",
+  "resonar",
+  "cuerpa",
+  "crisis",
+  "dignidad",
+  "pandemia",
+  "renuncien",
+  "litio",
+  "desierto",
+  'telescopio',
+  "antena",
+  "sequedad",
+  "extinción",
+  "regeneración",
+  "renovación",
+  "detención",
+  "delfines", 
+  "puma",
+  "guanaco",
+  "zorrillo",
+  "paco",
+  "zoom",
+  "digital",
+  "cyborg",
+  "bioticos",
+  "mascarilla",
+  "manifestación",
+  "pluriverso",
+  "plurinacional",
+  "primera linea",
+  "laser",
+  "drone",
+  "la nube",
+  "wifi",
+  "internet",
+  "futuro",
+  "ancestral",
+  "economía circular",
+  "tiempo circular",
+  "no lineal",
+  "5G",
+  "transducción",
+  "energías limpias",
+  "inteligencia colectiva",
+  "levitación ultrasonica",
+  "simpoeisis",
+  "trance",
+  "tecno"
+];
+
 let flechita = null;
 
 let ojito = null; 
@@ -43,7 +139,6 @@ let myFont = null;
 // when the model is loaded
 function modelLoaded() {
   console.log("model loaded!");
-  detectOneFrame();
 }
 
 function preload() {
@@ -128,39 +223,6 @@ function draw() {
 
   // cursor
   image(ojito, mouseX, mouseY, 654/10, 264/10);
-
-}
-
-function detectOneFrame() {
-  if (lastPartUrl == oneFrameText) {
-    oneFrame = true;
-    // if oneFrame
-    rnn.generate({ seed: currentDecimas,
-    length: oneFrameLength,
-    temperature: oneFrameTemperature
-    }, (err, results) => {
-      for (let i = 0; i < results.sample.length; i++) {
-        if (results.sample[i] == "\n" || results.sample[i] == "\r") {
-          if (!justDidNewLine) {
-            currentDecimas = currentDecimas + "\n";
-            justDidNewLine = true;
-            currentLine = currentLine + 1;
-          }
-        }
-        else {
-          currentDecimas = currentDecimas + results.sample[i];
-          justDidNewLine = false;
-        }
-
-        if (currentLine > decimasLines - 1) {
-          break;
-        }
-      }
-    });  
-  } else {
-    oneFrame = false;
-    generate();
-  }
 }
 
 function generate() {
@@ -180,25 +242,35 @@ async function loopRNN() {
 
 async function predict() {
 
-  let next = await rnn.predict(temperature);
-  await rnn.feed(next.sample);
-  if (next.sample == "\r" || next.sample == "\n") {
-    if (!justDidNewLine) {
-      currentDecimas = currentDecimas + "\n";
-      justDidNewLine = true;
-      currentLine = currentLine + 1;
+  // detect if the last character is a space
+  if (currentDecimas[currentDecimas.length - 1] == " ") {
+    // fill with a word from list depending on probability
+    if (Math.random() < probability) {
+      currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)];
     }
-  } else {
-    currentDecimas = currentDecimas + next.sample;
-    justDidNewLine = false;
+    else {
+      let next = await rnn.predict(temperature);
+      await rnn.feed(next.sample);
+      if (next.sample == "\r" || next.sample == "\n") {
+        if (!justDidNewLine) {
+          currentDecimas = currentDecimas + "\n";
+          justDidNewLine = true;
+          currentLine = currentLine + 1;
+        }
+      } else {
+        currentDecimas = currentDecimas + next.sample;
+        justDidNewLine = false;
+      }
+    
+      if (currentLine > decimasLines - 1) {
+        currentDecimas = currentDecimas + "\n";
+        justDidNewLine = false;
+        currentLine = 0;
+        generating = false;
+      }
+    }
   }
 
-  if (currentLine > decimasLines - 1) {
-    currentDecimas = currentDecimas + "\n";
-    justDidNewLine = false;
-    currentLine = 0;
-    generating = false;
-  }
 }
 
 function windowResized() {
@@ -208,6 +280,5 @@ function windowResized() {
 function mouseClicked() {
   currentDecimas = allChars[int(random(allChars.length))];
   currentLine = 0;
-  detectOneFrame();
   generating = true;
 }
