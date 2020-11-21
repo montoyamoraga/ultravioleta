@@ -240,26 +240,28 @@ async function predict() {
     if (Math.random() < probability) {
       currentDecimas = currentDecimas + myWords[Math.floor(Math.random() * myWords.length)];
     }
-    else {
-      let next = await rnn.predict(temperature);
-      await rnn.feed(next.sample);
-      if (next.sample == "\r" || next.sample == "\n") {
-        if (!justDidNewLine) {
-          currentDecimas = currentDecimas + "\n";
-          justDidNewLine = true;
-          currentLine = currentLine + 1;
-        }
-      } else {
-        currentDecimas = currentDecimas + next.sample;
-        justDidNewLine = false;
-      }
-    
-      if (currentLine > decimasLines - 1) {
+  }
+  else {
+    let next = await rnn.predict(temperature);
+    await rnn.feed(next.sample);
+
+    if (next.sample == "\r" || next.sample == "\n") {
+      if (!justDidNewLine) {
         currentDecimas = currentDecimas + "\n";
-        justDidNewLine = false;
-        currentLine = 0;
-        generating = false;
+        justDidNewLine = true;
+        currentLine = currentLine + 1;
       }
+    }
+    else {
+      currentDecimas = currentDecimas + next.sample;
+      justDidNewLine = false;
+    }
+  
+    if (currentLine > decimasLines - 1) {
+      currentDecimas = currentDecimas + "\n";
+      justDidNewLine = false;
+      currentLine = 0;
+      generating = false;
     }
   }
 
