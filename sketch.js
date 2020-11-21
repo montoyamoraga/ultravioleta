@@ -59,7 +59,7 @@ function setup() {
 
   noCursor();
 
-  rnn = new ml5.charRNN("./models/nicole", modelLoaded);
+  rnn = new ml5.charRNN("./models/ultravioleta", modelLoaded);
   
   url = getURL();
 
