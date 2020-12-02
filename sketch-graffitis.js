@@ -1,7 +1,7 @@
 // casiVioleta
 // by Nicole L'Huillier + Aarón Montoya-Moraga
 // submission to Generative Unfoldings, MIT CAST
-// October 2020
+// October-December 2020
 
 let url = null;
 
@@ -40,6 +40,9 @@ let textCredits = "nicole l'huillier & aarón montoya-moraga | 2020"
 
 let myFont = null;
 
+// p5.speech.js variable for speech
+let p5Speech = new p5.Speech(); 
+
 // when the model is loaded
 function modelLoaded() {
   console.log("model loaded!");
@@ -66,6 +69,9 @@ function setup() {
   lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
   
   currentDecimas = allChars[int(random(allChars.length))];
+
+  // set language to latin american spanish
+  p5Speech.setLang("es-419");
 }
 
 function draw() {
@@ -187,6 +193,14 @@ async function predict() {
       currentDecimas = currentDecimas + "\n";
       justDidNewLine = true;
       currentLine = currentLine + 1;
+
+      // create array of all lines
+      let allLines = currentDecimas.split("\n");
+      // retrieve last line
+      let lastLine = allLines[allLines.length - 1];
+      // say the last line
+      p5Speech.speak(lastLine);
+
     }
   } else {
     currentDecimas = currentDecimas + next.sample;
