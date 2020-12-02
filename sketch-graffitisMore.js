@@ -72,6 +72,7 @@ function setup() {
 
   // set language to latin american spanish
   p5Speech.setLang("es-419");
+  
 }
 
 function draw() {
@@ -194,14 +195,14 @@ async function predict() {
       // create array of all lines
       let allLines = currentDecimas.split("\n");
       // retrieve last line
-      let lastLine = allLines[allLines.length - 1];
+      // let lastLine = allLines[allLines.length - 1];
+      let lastLine = allLines[currentLine];
       // say the last line
       p5Speech.speak(lastLine);
 
       currentDecimas = currentDecimas + "\n";
       justDidNewLine = true;
-      currentLine = currentLine + 1;
-      console.log(currentLine);
+      currentLine = currentLine + 1
     
     }
   } else {
