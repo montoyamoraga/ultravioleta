@@ -63,6 +63,7 @@ for i in range(len(original)):
 # open file output.txt to rewrite it
 output = open("output.txt", "w+")
 
+# write the next text on the output.txt file
 output.write(newText)
 
 # close file
