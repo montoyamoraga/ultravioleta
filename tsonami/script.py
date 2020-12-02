@@ -1,4 +1,6 @@
-python script.py
+# instructions: 
+# cd to the folder tsonami
+# run python script.py
 
 # load original.txt
 
