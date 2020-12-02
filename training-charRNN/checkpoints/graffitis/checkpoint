@@ -1,4 +1,6 @@
-model_checkpoint_path: "graffitis-2000"
-all_model_checkpoint_paths: "graffitis-0"
+model_checkpoint_path: "graffitis-4949"
 all_model_checkpoint_paths: "graffitis-1000"
 all_model_checkpoint_paths: "graffitis-2000"
+all_model_checkpoint_paths: "graffitis-3000"
+all_model_checkpoint_paths: "graffitis-4000"
+all_model_checkpoint_paths: "graffitis-4949"
