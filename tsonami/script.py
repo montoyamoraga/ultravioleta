@@ -39,11 +39,11 @@ if (len(sys.argv) == 2):
 
 # load original.txt
 original = open("original.txt", "r").read()
-original = strip_accents(original)
+# original = strip_accents(original)
 
 # load keywords.txt
 keywords = open("keywords.txt", "r").read()
-keywords = strip_accents(keywords)
+# keywords = strip_accents(keywords)
 
 # create array, where every element is a line
 # keywords = keywords.split("\r\n");
