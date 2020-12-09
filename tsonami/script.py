@@ -46,7 +46,8 @@ keywords = open("keywords.txt", "r").read()
 keywords = strip_accents(keywords)
 
 # create array, where every element is a line
-keywords = keywords.split("\r\n");
+# keywords = keywords.split("\r\n");
+keywords = keywords.split("\n");
 
 # create variable for storing current word
 currentWord = ""
