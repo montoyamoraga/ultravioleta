@@ -12,6 +12,21 @@
 # import modules
 import sys
 import random
+import unicodedata
+
+# https://stackoverflow.com/questions/44431730/how-to-replace-accented-characters-in-python
+def strip_accents(text):
+
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError: # unicode is a default on python 3 
+        pass
+
+    text = unicodedata.normalize('NFD', text)\
+           .encode('ascii', 'ignore')\
+           .decode("utf-8")
+
+    return str(text)
 
 # variable for probability of changing words
 # default value is 5 percent
@@ -24,9 +39,11 @@ if (len(sys.argv) == 2):
 
 # load original.txt
 original = open("original.txt", "r").read()
+original = strip_accents(original)
 
 # load keywords.txt
 keywords = open("keywords.txt", "r").read()
+keywords = strip_accents(keywords)
 
 # create array, where every element is a line
 keywords = keywords.split("\r\n");
