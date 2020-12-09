@@ -1,7 +1,7 @@
 // casiVioleta
 // by Nicole L'Huillier + Aarón Montoya-Moraga
 // submission to Generative Unfoldings, MIT CAST
-// October-December 2020
+// October 2020
 
 let url = null;
 
@@ -33,19 +33,12 @@ let flechita = null;
 
 let ojito = null; 
 
-// let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
-// let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
-
-let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que alucina  décimas  entre  violeta parra y los muros  de  santiago de chile";
-let textMenuEnglish = "ultravioleta | imaginary memories of a machine that hallucinates décimas between violeta parra and the walls of santiago de chile";
-
+let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
+let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
 
 let textCredits = "nicole l'huillier & aarón montoya-moraga | 2020"
 
 let myFont = null;
-
-// p5.speech.js variable for speech
-let p5Speech = new p5.Speech(); 
 
 // when the model is loaded
 function modelLoaded() {
@@ -66,17 +59,13 @@ function setup() {
 
   noCursor();
 
-  rnn = new ml5.charRNN("./models/graffitis", modelLoaded);
+  rnn = new ml5.charRNN("./models/ultravioleta", modelLoaded);
   
   url = getURL();
 
   lastPartUrl = url.substring(url.length - oneFrameStartIndex, url.length);
   
   currentDecimas = allChars[int(random(allChars.length))];
-
-  // set language to latin american spanish
-  p5Speech.setLang("es-419");
-  
 }
 
 function draw() {
@@ -195,24 +184,13 @@ async function predict() {
   await rnn.feed(next.sample);
   if (next.sample == "\r" || next.sample == "\n") {
     if (!justDidNewLine) {
-
-      // create array of all lines
-      let allLines = currentDecimas.split("\n");
-      // retrieve last line
-      // let lastLine = allLines[allLines.length - 1];
-      let lastLine = allLines[currentLine];
-      // say the last line
-      p5Speech.speak(lastLine);
-
       currentDecimas = currentDecimas + "\n";
       justDidNewLine = true;
-      currentLine = currentLine + 1
-    
+      currentLine = currentLine + 1;
     }
   } else {
     currentDecimas = currentDecimas + next.sample;
     justDidNewLine = false;
-    
   }
 
   if (currentLine > decimasLines - 1) {
