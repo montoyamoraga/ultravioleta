@@ -1,6 +1,3 @@
-# ultravioleta
-
-
 command for concatening all files
 
 ```bash

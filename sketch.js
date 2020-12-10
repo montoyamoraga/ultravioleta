@@ -1,6 +1,5 @@
-// casiVioleta
+// ultravioleta
 // by Nicole L'Huillier + Aarón Montoya-Moraga
-// submission to Generative Unfoldings, MIT CAST
 // October-December 2020
 
 let url = null;
@@ -33,9 +32,6 @@ let flechita = null;
 
 let ojito = null; 
 
-// let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que solo sabe las décimas de violeta parra";
-// let textMenuEnglish = "ultravioleta | imaginary  memories of a  machine that only knows  the décimas of violeta parra";
-
 let textMenuSpanish = "ultravioleta | recuerdos imaginarios de una máquina que alucina  décimas  entre  violeta parra y los muros  de  santiago de chile";
 let textMenuEnglish = "ultravioleta | imaginary memories of a machine that hallucinates décimas between violeta parra and the walls of santiago de chile";
 
@@ -45,7 +41,7 @@ let textCredits = "nicole l'huillier & aarón montoya-moraga | 2020"
 let myFont = null;
 
 // p5.speech.js variable for speech
-let p5Speech = new p5.Speech(); 
+// let p5Speech = new p5.Speech();
 
 // when the model is loaded
 function modelLoaded() {
@@ -75,7 +71,7 @@ function setup() {
   currentDecimas = allChars[int(random(allChars.length))];
 
   // set language to latin american spanish
-  p5Speech.setLang("es-419");
+  // p5Speech.setLang("es-419");
   
 }
 
@@ -202,7 +198,7 @@ async function predict() {
       // let lastLine = allLines[allLines.length - 1];
       let lastLine = allLines[currentLine];
       // say the last line
-      p5Speech.speak(lastLine);
+      // p5Speech.speak(lastLine);
 
       currentDecimas = currentDecimas + "\n";
       justDidNewLine = true;
